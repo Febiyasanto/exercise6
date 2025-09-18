@@ -1,0 +1,116 @@
+// URK24CS1263 - FEBIYA S ANTO
+
+package URK24CS1263;
+import java.util.Scanner;
+
+// Interface for transactions
+interface Transaction {
+    void deposit(double amount);
+    void withdraw(double amount);
+    void viewBalance();
+    void viewAccountDetails();
+}
+
+// Abstract class with account details
+abstract class Account {
+    String acc_name;
+    String acc_no;
+    double balance;
+
+    // Constructor for account details
+    public Account(String acc_name, String acc_no, double balance) {
+        this.acc_name = acc_name;
+        this.acc_no = acc_no;
+        this.balance = balance;
+    }
+}
+
+// Bank class implementing Transaction interface & inheriting Account
+class Bank extends Account implements Transaction {
+
+    public Bank(String acc_name, String acc_no, double balance) {
+        super(acc_name, acc_no, balance);
+    }
+
+    @Override
+    public void deposit(double amount) {
+        balance += amount;
+        System.out.println("Amount Deposited: " + amount);
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            System.out.println("Amount Withdrawn: " + amount);
+        } else {
+            System.out.println("Insufficient Balance!");
+        }
+    }
+
+    @Override
+    public void viewBalance() {
+        System.out.println("Current Balance: " + balance);
+    }
+
+    @Override
+    public void viewAccountDetails() {
+        System.out.println("Account Name: " + acc_name);
+        System.out.println("Account Number: " + acc_no);
+        System.out.println("Balance: " + balance);
+    }
+}
+
+
+public class BankingOperation {
+    public static void main(String[] args) {
+        // Display Register Number and Name
+        System.out.println("\nURK24CS1263 - FEBIYA S ANTO");
+
+        Scanner sc = new Scanner(System.in);
+        // Creating a sample bank account object
+        Bank myAccount = new Bank("John Doe", "ACC12345", 1000);
+
+        int choice;
+        do {
+            // Menu
+            System.out.println("\n*** Banking Menu ***");
+            System.out.println("1. Deposit");
+            System.out.println("2. Withdraw");
+            System.out.println("3. View Balance");
+            System.out.println("4. View Account Details");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            // Switch case for operations
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter deposit amount: ");
+                    double depAmt = sc.nextDouble();
+                    myAccount.deposit(depAmt);
+                    break;
+                case 2:
+                    System.out.print("Enter withdrawal amount: ");
+                    double withAmt = sc.nextDouble();
+                    myAccount.withdraw(withAmt);
+                    break;
+                case 3:
+                    myAccount.viewBalance();
+                    break;
+                case 4:
+                    myAccount.viewAccountDetails();
+                    break;
+                case 5:
+                    System.out.println("Exiting... Thank you!");
+                    break;
+                default:
+                    System.out.println("Invalid choice! Try again.");
+            }
+        } while (choice != 5);
+
+        sc.close();
+    }
+}
+
+
